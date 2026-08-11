@@ -11,6 +11,7 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+firebase.json
 
 # IntelliJ related
 *.iml
@@ -18,7 +19,6 @@ migrate_working_dir/
 *.iws
 .idea/
 .vscode/
-firebase
 
 # Flutter/Dart/Pub related
 **/doc/api/
