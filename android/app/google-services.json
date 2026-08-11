@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "642287732371",
+    "project_id": "fir-ogrenme-9e1d2",
+    "storage_bucket": "fir-ogrenme-9e1d2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642287732371:android:8279fd6fe12eae1cb8ef66",
+        "android_client_info": {
+          "package_name": "com.example.firebase_deneme"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSB1aKgB2fnIHRHWCodRIf0pHCA788Un0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
