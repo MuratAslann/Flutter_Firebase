@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     hide EmailAuthProvider, PhoneAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
@@ -31,5 +32,20 @@ class ApplicationState extends ChangeNotifier {
 
       notifyListeners();
     });
+  }
+
+  Future<DocumentReference> addMessageToGuestBook(String message) {
+    if (!_loggedIn) {
+      throw Exception("Mesaj göndermek için mutlaka giriş yapılmalı");
+    }
+
+    return FirebaseFirestore.instance
+        .collection('guestbook')
+        .add(<String, dynamic>{
+          'text': message,
+          'timestamp': DateTime.now().microsecondsSinceEpoch,
+          'name': FirebaseAuth.instance.currentUser!.displayName,
+          'userId': FirebaseAuth.instance.currentUser!.uid,
+        });
   }
 }

@@ -1,4 +1,5 @@
 import 'package:firebase_deneme/pages/guest_book.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart'
@@ -58,8 +59,22 @@ class _HomePageState extends State<HomePage> {
             color: Colors.grey,
           ),
 
-          const Header("Sohbet"),
-          GuestBook(addMessage: (mesaage) => print(mesaage)),
+          Consumer<ApplicationState>(
+            builder: (context, appstate, _) => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+
+              children: [
+                if (appstate.loggedin) ...[
+                  const Header("Sohbet"),
+
+                  GuestBook(
+                    addMessage: (message) =>
+                        appstate.addMessageToGuestBook(message),
+                  ),
+                ],
+              ],
+            ),
+          ),
         ],
       ),
     );
