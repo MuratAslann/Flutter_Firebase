@@ -18,7 +18,7 @@ migrate_working_dir/
 *.iws
 .idea/
 .vscode/
-/firebase.json
+firebase.json
 
 # Flutter/Dart/Pub related
 **/doc/api/
