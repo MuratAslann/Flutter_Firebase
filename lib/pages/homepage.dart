@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart'
 
 import 'package:provider/provider.dart';
 
-import '../app_state.dart';
+import '../src/app_state.dart';
 import '../src/authentication.dart';
 import '../src/widgets.dart';
 

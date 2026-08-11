@@ -4,7 +4,7 @@ import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-import 'app_state.dart';
+import 'src/app_state.dart';
 import 'pages/homepage.dart';
 
 void main() async {
