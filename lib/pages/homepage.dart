@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
 
               children: [
                 if (appstate.loggedin) ...[
-                  const Header("Sohbet"),
+                  const Header("SOHBET"),
 
                   GuestBook(
                     addMessage: (message) =>
