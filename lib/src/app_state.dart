@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 
 import '../firebase_options.dart';
+import 'guest_book_message.dart';
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
@@ -15,6 +18,10 @@ class ApplicationState extends ChangeNotifier {
 
   bool _loggedIn = false;
   bool get loggedin => _loggedIn;
+
+  StreamSubscription<QuerySnapshot>? _guestBookSubsription;
+  List<GuestBookMessage> _guestBookMessages = [];
+  List<GuestBookMessage> get guestBookMessage => _guestBookMessages;
 
   Future<void> init() async {
     await Firebase.initializeApp(
@@ -26,8 +33,30 @@ class ApplicationState extends ChangeNotifier {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loggedIn = true;
+
+        _guestBookSubsription = FirebaseFirestore.instance
+            .collection('guestbook')
+            .orderBy('timestamp', descending: true)
+            .snapshots()
+            .listen((snapshot) {
+              _guestBookMessages = [];
+
+              for (final document in snapshot.docs) {
+                _guestBookMessages.add(
+                  GuestBookMessage(
+                    name: document.data()['name'] as String,
+                    message: document.data()['message'] as String,
+                  ),
+                );
+              }
+
+              notifyListeners();
+            });
       } else {
         _loggedIn = false;
+
+        _guestBookMessages = [];
+        _guestBookSubsription?.cancel();
       }
 
       notifyListeners();
@@ -42,10 +71,10 @@ class ApplicationState extends ChangeNotifier {
     return FirebaseFirestore.instance
         .collection('guestbook')
         .add(<String, dynamic>{
-          'text': message,
-          'timestamp': DateTime.now().microsecondsSinceEpoch,
           'name': FirebaseAuth.instance.currentUser!.displayName,
           'userId': FirebaseAuth.instance.currentUser!.uid,
+          'timestamp': DateTime.now().microsecondsSinceEpoch,
+          'text': message,
         });
   }
 }

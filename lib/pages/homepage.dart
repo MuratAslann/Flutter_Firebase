@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Image.asset('assets/codelab.png'),
           const SizedBox(height: 8),
-          const IconAndDetail(Icons.calendar_today, '21.08'),
+          IconAndDetail(Icons.calendar_today, "10.08.2026"),
           const IconAndDetail(Icons.location_city, 'İstanbul'),
 
           Consumer<ApplicationState>(
@@ -69,6 +69,8 @@ class _HomePageState extends State<HomePage> {
                   GuestBook(
                     addMessage: (message) =>
                         appstate.addMessageToGuestBook(message),
+
+                    messages: appstate.guestBookMessage,
                   ),
                 ],
               ],
