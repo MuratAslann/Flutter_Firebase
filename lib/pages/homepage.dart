@@ -1,4 +1,5 @@
 import 'package:firebase_deneme/pages/guest_book.dart';
+import 'package:firebase_deneme/pages/yes_no_selection.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart'
@@ -63,7 +64,31 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
 
               children: [
+                switch (appState.attendees) {
+                  1 => const Paragraph('Sadece 1 insan katılıyor'),
+
+                  >= 2 => Paragraph(
+                    '${appState.attendees} kadar kişi geliyor ',
+                  ),
+
+                  _ => const Paragraph('Kimse katılmıyor'),
+                },
+
                 if (appState.loggedIn) ...[
+                  YesNoSelection(
+                    state: appState.attending,
+                    onSelection: (attending) =>
+                        appState.attending = attending,
+                  ),
+
+                  const Divider(
+                    height: 8,
+                    thickness: 1,
+                    indent: 8,
+                    endIndent: 8,
+                    color: Colors.grey,
+                  ),
+
                   const Header("SOHBET"),
 
                   GuestBook(
