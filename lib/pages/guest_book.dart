@@ -25,65 +25,63 @@ class _GuestBookState extends State<GuestBook> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
 
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8),
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Form(
+            key: _formKey,
 
-            child: Form(
-              key: _formKey,
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _controller,
 
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _controller,
-
-                      decoration: const InputDecoration(
-                        hintText: 'Mesaj yaz',
-                      ),
-
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Mesaj yeri boş bırakılamaz.';
-                        }
-
-                        return null;
-                      },
+                    decoration: const InputDecoration(
+                      hintText: 'Bir mesaj yazın',
                     ),
-                  ),
 
-                  const SizedBox(width: 8),
-
-                  StyledButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        await widget.addMessage(_controller.text);
-
-                        _controller.clear();
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Mesaj eklemek için bir şeyler yazınız.';
                       }
+                      return null;
                     },
-
-                    child: Row(
-                      children: [
-                        Icon(Icons.send),
-                        SizedBox(width: 4),
-                        Text("GÖNDER"),
-                      ],
-                    ),
                   ),
-                ],
-              ),
+                ),
+
+                const SizedBox(width: 8),
+
+                StyledButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      await widget.addMessage(_controller.text);
+                      _controller.clear();
+                    }
+                  },
+
+                  child: Row(
+                    children: [
+                      Icon(Icons.send),
+                      SizedBox(width: 4),
+                      Text('GÖNDER'),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
+        ),
 
-          for (GuestBookMessage message in widget.messages)
-            Text("${message.name}: ${message.message}"),
-        ],
-      ),
+        const SizedBox(height: 8),
+
+        for (var message in widget.messages)
+          Paragraph('${message.name}: ${message.message}'),
+        const SizedBox(height: 8),
+      ],
     );
   }
 }

@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
 
           Consumer<ApplicationState>(
             builder: (context, appstate, _) => AuthFunc(
-              loggedIn: appstate.loggedin,
+              loggedIn: appstate.loggedIn,
               signOut: () {
                 FirebaseAuth.instance.signOut();
               },
@@ -59,18 +59,17 @@ class _HomePageState extends State<HomePage> {
           ),
 
           Consumer<ApplicationState>(
-            builder: (context, appstate, _) => Column(
+            builder: (context, appState, _) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
 
               children: [
-                if (appstate.loggedin) ...[
+                if (appState.loggedIn) ...[
                   const Header("SOHBET"),
 
                   GuestBook(
                     addMessage: (message) =>
-                        appstate.addMessageToGuestBook(message),
-
-                    messages: appstate.guestBookMessage,
+                        appState.addMessageToGuestBook(message),
+                    messages: appState.guestBookMessage,
                   ),
                 ],
               ],

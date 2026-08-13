@@ -17,9 +17,9 @@ class ApplicationState extends ChangeNotifier {
   }
 
   bool _loggedIn = false;
-  bool get loggedin => _loggedIn;
+  bool get loggedIn => _loggedIn;
 
-  StreamSubscription<QuerySnapshot>? _guestBookSubsription;
+  StreamSubscription<QuerySnapshot>? _guestBookSubscription;
   List<GuestBookMessage> _guestBookMessages = [];
   List<GuestBookMessage> get guestBookMessage => _guestBookMessages;
 
@@ -34,7 +34,7 @@ class ApplicationState extends ChangeNotifier {
       if (user != null) {
         _loggedIn = true;
 
-        _guestBookSubsription = FirebaseFirestore.instance
+        _guestBookSubscription = FirebaseFirestore.instance
             .collection('guestbook')
             .orderBy('timestamp', descending: true)
             .snapshots()
@@ -45,7 +45,7 @@ class ApplicationState extends ChangeNotifier {
                 _guestBookMessages.add(
                   GuestBookMessage(
                     name: document.data()['name'] as String,
-                    message: document.data()['message'] as String,
+                    message: document.data()['text'] as String,
                   ),
                 );
               }
@@ -56,7 +56,7 @@ class ApplicationState extends ChangeNotifier {
         _loggedIn = false;
 
         _guestBookMessages = [];
-        _guestBookSubsription?.cancel();
+        _guestBookSubscription?.cancel();
       }
 
       notifyListeners();
